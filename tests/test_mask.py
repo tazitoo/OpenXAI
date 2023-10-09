@@ -3,7 +3,6 @@
 test if normal perturbations change topk features
 '''
 
-import numpy as np
 import torch
 from openxai.explainers.perturbation_methods import NormalPerturbation
 from openxai.experiment_utils import generate_mask
@@ -20,7 +19,10 @@ def test_mask():
     x_perturbed = perturbation.get_perturbed_inputs(original_sample=x, feature_mask=mask, num_samples=1, 
         feature_metadata=feature_metadata)
 
+    # look at where the values have been perturbed
     delta = x - x_perturbed
+
+    # the number of locations perturbed should match topk
     assert torch.count_nonzero(delta).item() == topk
     return
 
